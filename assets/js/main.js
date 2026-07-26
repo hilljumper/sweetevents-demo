@@ -278,6 +278,7 @@
   document.querySelectorAll(".typer").forEach(function (el) {
     var words = (el.getAttribute("data-words") || "").split("·").filter(Boolean);
     if (!words.length) return;
+    el.textContent = "";
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       el.textContent = words[0];
       return;
