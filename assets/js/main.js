@@ -273,6 +273,32 @@
     }
   }
 
+  /* ---------- Typewriter del titular ---------- */
+
+  document.querySelectorAll(".typer").forEach(function (el) {
+    var words = (el.getAttribute("data-words") || "").split("·").filter(Boolean);
+    if (!words.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = words[0];
+      return;
+    }
+    var w = 0, i = 0, deleting = false;
+    function tick() {
+      var word = words[w];
+      if (!deleting) {
+        i++;
+        el.textContent = word.slice(0, i);
+        if (i === word.length) { deleting = true; return setTimeout(tick, 1900); }
+        return setTimeout(tick, 65 + Math.random() * 70);
+      }
+      i--;
+      el.textContent = word.slice(0, i);
+      if (i === 0) { deleting = false; w = (w + 1) % words.length; return setTimeout(tick, 350); }
+      setTimeout(tick, 38);
+    }
+    setTimeout(tick, 900);
+  });
+
   /* ---------- Año en el footer ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) {
     el.textContent = new Date().getFullYear();
